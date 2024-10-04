@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../features/product/productSlice";
 import { Link } from "react-router-dom";
+import Card from "./ui/Card";
 
 const Products = () => {
   const { products, status, error } = useSelector((state) => state.products); // Mengakses langsung dari state
@@ -39,29 +40,14 @@ const Products = () => {
       )}
       {status === "failed" && <p>{error}</p>}
 
-      <div className="px-10 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5 lg:gap-8 text-center mb-20">
+      <div className="px-4 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5 lg:gap-8 text-center mb-20">
         {/* Dalam map produk */}
         {status === "succeeded" && products.length > 0
           ? products.map((product) => (
               <Link to={`/product/${product.id}`} key={product.id}>
                 {" "}
                 {/* Link ke detail produk */}
-                <div className="card card-compact bg-base-100 shadow-xl text-start">
-                  <figure>
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      className="h-56 lg:w-96 lg:h-96"
-                    />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title line-clamp-1">{product.title}</h2>
-                    <p>${product.price}</p>
-                    <div className="card-actions justify-end">
-                      {/* <button className="btn btn-primary">Buy Now</button> */}
-                    </div>
-                  </div>
-                </div>
+                <Card product={product} convertToRupiah={convertToRupiah} />
               </Link>
             ))
           : status === "succeeded" && <p>No products found.</p>}
