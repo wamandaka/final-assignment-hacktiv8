@@ -1,27 +1,56 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
-import ProductDetail from "./components/ProductDetail";
+import ProductDetail from "./pages/ProductDetail";
 import MainLayout from "./layouts/MainLayout";
 import PageNotFound from "./pages/PageNotFound";
+import ProductsByCategory from "./pages/ProductsByCategory";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <MainLayout />,
+    errorElement: <PageNotFound />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/product/:id",
+        element: <ProductDetail />,
+      },
+      {
+        path: "/products/category/:category",
+        element: <ProductsByCategory />,
+      },
+    ],
   },
   {
-    path: "/product/:id",
-    element: <ProductDetail />,
+    path: "/login",
+    element: <Login />,
   },
-  {
-    path: "/product/electronic",
-    element: <div>electronic</div>,
-  },
-  {
-    path: "*",
-    element: <PageNotFound />,
-  },
+  // {
+  //   path: "/",
+  //   element: <Home />,
+  // },
+  // {
+  //   path: "/product/:id",
+  //   element: <ProductDetail />,
+  // },
+  // {
+  //   path: "/products/category/:category",
+  //   element: <ProductsByCategory />,
+  // },
+  // {
+  //   path: "/login",
+  //   element: <Login />,
+  // },
+  // {
+  //   path: "*",
+  //   element: <PageNotFound />,
+  // },
 ]);
 
 export default router;
