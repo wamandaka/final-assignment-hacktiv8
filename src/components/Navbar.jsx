@@ -1,7 +1,16 @@
 import React from "react";
 import { CiUser, CiSearch, CiShoppingCart, CiHeart } from "react-icons/ci";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../features/auth/authSlice";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn); // Get the login status from auth slice
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <div>
       <div className="lg:px-14 navbar bg-base-100">
@@ -38,7 +47,9 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <a href="/" className="btn btn-ghost text-xl">FakeStore</a>
+          <a href="/" className="btn btn-ghost text-xl">
+            FakeStore
+          </a>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
@@ -66,9 +77,38 @@ const Navbar = () => {
           <a href="">
             <CiShoppingCart size={25} />
           </a>
-          <a href="#">
-            <CiUser size={25} />
-          </a>
+
+          {!isLoggedIn && (
+            <a href="/login">
+              <button className="btn btn-outline btn-sm btn-info">Login</button>
+            </a>
+          )}
+
+          {/* Conditionally render profile only if the user is logged in */}
+          {isLoggedIn && (
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-10 rounded-full">
+                  <img
+                    alt="User Avatar"
+                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  />
+                </div>
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              >
+                <li onClick={handleLogout}>
+                  <a>Logout</a>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
