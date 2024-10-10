@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { fetchProducts } from "../features/product/productSlice";
+import { addToCart } from "../features/cart/cartSlice";
 import Navbar from "../components/Navbar";
+import { useState } from "react";
 
 const ProductDetail = () => {
   const { id } = useParams(); // Mengambil ID dari URL
@@ -11,6 +13,9 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth); // Check if the user is logged in
   const { products, status, error } = useSelector((state) => state.products);
+  const carts = useSelector((state) => state.cart.products);
+  const [quantity, setQuantity] = useState(1);
+  console.log(carts);
 
   useEffect(() => {
     dispatch(fetchProducts()); // Mengambil semua produk
@@ -22,7 +27,7 @@ const ProductDetail = () => {
       navigate("/login");
     } else {
       // Otherwise, proceed to add the product to cart
-      dispatch(addToCart(product)); // Assume addToCart action exists
+      dispatch(addToCart({ ...product, quantity: quantity })); // Assume addToCart action exists
     }
   };
 
@@ -32,6 +37,16 @@ const ProductDetail = () => {
       style: "currency",
       currency: "IDR",
     });
+  };
+
+  const handleMinusQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const handlePlusQuantity = () => {
+    setQuantity(quantity + 1);
   };
 
   // Mencari produk berdasarkan ID
@@ -63,6 +78,16 @@ const ProductDetail = () => {
               <p className="text-xl font-bold my-2 md:text-2xl">
                 {convertToRupiah(product.price)}
               </p>
+
+              <div className="flex space-x-3 items-center">
+                <button onClick={handleMinusQuantity} className="btn">
+                  -
+                </button>
+                <p>{quantity}</p>
+                <button onClick={handlePlusQuantity} className="btn">
+                  +
+                </button>
+              </div>
 
               <button
                 onClick={handleAddToCart}
