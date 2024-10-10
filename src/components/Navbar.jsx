@@ -37,7 +37,7 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <a href="/">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li>
                 <a href="">Shop</a>
@@ -47,17 +47,17 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <a href="/" className="btn btn-ghost text-xl">
+          <Link to="/" className="btn btn-ghost text-xl">
             FakeStore
-          </a>
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <a href="/">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <a>Shop</a>
+              <a className="btn-disabled">Shop</a>
             </li>
             <li>
               <a>Blog</a>
