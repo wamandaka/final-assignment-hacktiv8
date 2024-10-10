@@ -14,7 +14,7 @@ export const fetchProducts = createAsyncThunk(
   "products/fetchProducts", // action type
   async () => {
     const response = await axios.get(GetProductAll);
-    console.log(response.data);
+    // console.log(response.data);
     return response.data; // return data as the payload
   }
 );
